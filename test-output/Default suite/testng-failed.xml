@@ -6,6 +6,8 @@
       <class name="ExcelWork">
         <methods>
           <include name="Test1"/>
+          <include name="setUp"/>
+          <include name="tearDown"/>
         </methods>
       </class> <!-- ExcelWork -->
     </classes>
