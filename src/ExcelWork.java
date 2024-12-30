@@ -40,9 +40,9 @@ public class ExcelWork {
     			//String browserName = prop.getProperty("browser");
     			
         if (browser.equalsIgnoreCase("chrome")) {
-            driver = new ChromeDriver(); // No need for `System.setProperty`
+            driver = new ChromeDriver(); 
         } else if (browser.equalsIgnoreCase("firefox")) {
-            driver = new FirefoxDriver(); // No need for `System.setProperty`
+            driver = new FirefoxDriver(); 
         } else {
             throw new IllegalArgumentException("Browser not supported: " + browser);
         }
