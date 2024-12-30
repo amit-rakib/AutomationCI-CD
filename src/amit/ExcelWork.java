@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Iterator;
+import java.util.Properties;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -16,17 +17,41 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class ExcelWork {
-      WebDriver driver = new ChromeDriver();
+	WebDriver driver;
+    String filePath = "/Users/apple/Downloads/download.xlsx";
+
+    @BeforeMethod
+    public void setUp() throws IOException {
+    	//Global Properties class
+    			Properties prop = new Properties();
+    			FileInputStream fis = new FileInputStream(System.getProperty("user.dir")+"//src//amit//Global.properties");
+    			prop.load(fis);
+    			
+    			
+    			String browser = System.getProperty("browser")!=null? System.getProperty("browser"): prop.getProperty("browser");
+    			//String browserName = prop.getProperty("browser");
+    			
+        if (browser.equalsIgnoreCase("chrome")) {
+            driver = new ChromeDriver(); // No need for `System.setProperty`
+        } else if (browser.equalsIgnoreCase("firefox")) {
+            driver = new FirefoxDriver(); // No need for `System.setProperty`
+        } else {
+            throw new IllegalArgumentException("Browser not supported: " + browser);
+        }
+    }
+
       
-      String filePath = "/Users/apple/Downloads/download.xlsx";
-      
-      @Test()
+	  
+      @Test
       public void Test1() throws IOException, InterruptedException {
   		driver.get("https://rahulshettyacademy.com/upload-download-test/");
   		
@@ -68,9 +93,12 @@ public class ExcelWork {
   	  String updatedPrice =  driver.findElement(By.xpath("//div[text()='Apple']/parent::div/parent::div/div[@id='cell-4-undefined']")).getText();
   	    Assert.assertEquals("500", updatedPrice);
   	    
-  	    driver.close();
-  	    
   		}
+      
+      @AfterMethod
+      public void tearDown() {
+    	  driver.close();
+      }
 
 	private void updateCell(int row, int col, String string) throws IOException {
 		// TODO Auto-generated method stub
@@ -139,7 +167,7 @@ public class ExcelWork {
 	    }
 	   
 	    System.out.println("row ="+rowIndex);
-		
+		// comment 
 		return rowIndex;
 		
 	}
